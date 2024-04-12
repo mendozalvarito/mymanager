@@ -1,86 +1,151 @@
 <x-app-layout>
-    <div class="card mb-4">
-        <div class="card-header justify-content-between align-items-center d-flex">
-            <h6 class="card-title m-0">{{ __('Products Management') }}</h6>
-        </div>
-        <div class="card-body">
-            @session('success')
-                <div class="alert alert-success" role="alert"> {{ $value }} </div>
-            @endsession
-            <!-- User listing Actions-->
-            <div class="d-flex justify-content-end align-items-center mb-3">
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm">
-                        <i class="ri-add-circle-line align-bottom"></i>
-                        {{ __('New Product') }}
-                    </button>
+    <div class="container-fluid">
+        @session('success')
+            <div class="alert alert-success" role="alert">
+                {{ __($value) }}
+            </div>
+        @endsession
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">{{ __('Manage products') }}</p>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary" id="create">
+                            <i class="fas fa-plus-circle"></i> {{ __('New') }}
+                        </button>
+                    </div>
+                </div>
+                @isset($products)
+                    <div class="table-responsive table mt-2" id="dataTable" role="grid"
+                        aria-describedby="dataTable_info">
+                        <table class="table table-hover my-0 align-middle" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th class="text-bg-primary">{{ __('Name') }}</th>
+                                    <th class="text-bg-primary">{{ __('Description') }}</th>
+                                    <th class="text-bg-primary text-center">{{ __('Options') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($products->isEmpty())
+                                    <tr>
+                                        <td colspan="3">
+                                            <p class="text-center">{{ __('No records found') }}</p>
+                                        </td>
+                                    </tr>
+                                @else
+                                    @foreach ($products as $product)
+                                        <tr>
+                                            <td><img class="rounded me-2" width="50" height="50"
+                                                    src="/storage/uploads/images/products/{{ $product->image }}">{{ $product->name }}
+                                            </td>
+                                            <td>{{ $product->description }}</td>
+                                            <td>
+                                                <div class="m-2 text-center">
+                                                    <div class="dropdown no-arrow">
+                                                        <button
+                                                            class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
+                                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <button type="button" id="update {{ $product->id }}"
+                                                                    class="dropdown-item text-primary">
+                                                                    <i class="fas fa-edit"></i> {{ __('Update') }}
+                                                                </button>
+                                                            </li>
+                                                            <li>
+                                                                <form
+                                                                    action="{{ route('products.destroy', $product->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button class="dropdown-item text-primary">
+                                                                        <i class="fas fa-trash"></i> {{ __('Delete') }}
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                @endisset
+                <div class="row">
+                    {!! $products->links() !!}
                 </div>
             </div>
-            <!-- /user listing Actions-->
-            <!-- User Listing Table-->
-            <div class="table-responsive mb-3">
-                <table class="table m-0 table-striped">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Description</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($products as $product)
-                            <tr>
-                                <td>{{ $product->name }}</td>
-                                <td class="text-muted">{{ $product->description }}</td>
-                                <td class="text-center">
-                                    <div class="dropdown">
-                                        <button class="btn btn-link dropdown-toggle dropdown-toggle-icon fw-bold p-0"
-                                            type="button" id="dropdownOrder-0" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="ri-more-2-line"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown" aria-labelledby="dropdownOrder-0">
-                                            <li>
-                                                <button type="button" onclick="update({{ $product->id }})"
-                                                    class="dropdown-item d-flex justify-content-between"
-                                                    data-bs-toggle="modal" data-bs-target="#modalForm">
-                                                    <span>
-                                                        {{ __('Update') }}
-                                                    </span>
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <form action="{{ route('products.destroy', $product->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="dropdown-item d-flex justify-content-between"
-                                                        href="#">
-                                                        <span>
-                                                            {{ __('Delete') }}
-                                                        </span>
-                                                        <i class="fa-solid fa-trash-can"></i>
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- /User Listing Table-->
-            {!! $products->links() !!}
         </div>
     </div>
     <x-slot name="modal">
         @include('products.modal')
     </x-slot>
     @push('scripts')
-        {{-- @vite(['resources/js/handle.js']) --}}
+        <script type="module">
+            const myModal = new bootstrap.Modal(document.getElementById("exampleModal"));
+            const form = document.getElementById("formProduct");
+            const name = document.getElementById("name");
+            const description = document.getElementById("description");
+            const image = document.getElementById("imgPreview");
+            const inputMethod = document.createElement('input');
+            const title = document.getElementById('titleModal');
+            const button = document.getElementById('buttonModal');
+            inputMethod.type = 'hidden';
+            inputMethod.name = '_method';
+            inputMethod.value = 'put';
+            inputMethod.id = 'inputUpdate';
+
+            function update(id) {
+                let routeEdit = "{{ route('products.edit', ':id') }}";
+                let routeUpdate = "{{ route('products.update', ':id') }}";
+                let uri = routeEdit.replace(":id", id);
+
+                fetch(uri)
+                    .then((response) => response.json()) // convertir a json
+                    .then((data) => {
+                        name.value = data.name;
+                        description.value = data.description;
+                        image.src = "/storage/uploads/images/products/" + data.image;
+                        form.action = routeUpdate.replace(":id", id);
+                        form.appendChild(inputMethod);
+                        title.innerHTML = "{{__('Update')}}";
+                        button.innerHTML = "{{__('Update')}}";
+                        myModal.show();
+                    }) //imprimir los datos en la consola
+                    .catch((err) => console.log(err)); // Capturar errores
+            }
+
+            function crear() {
+                form.reset();
+                form.action = "{{ route('products.store') }}";
+                title.innerHTML = "{{__('Create')}}";
+                button.innerHTML = "{{__('Create')}}";
+                if (document.getElementById('inputUpdate')!== null) {
+                    form.removeChild(inputMethod);
+                }
+                myModal.show();
+            }
+
+            const buttons = document.querySelectorAll("button[id^='update']");
+            buttons.forEach(button => {
+                const idButton = button.getAttribute('id').split(' ')[1];
+                button.addEventListener('click', function() {
+                    update(idButton);
+                });
+            });
+
+            const buttonCreate = document.getElementById('create');
+            buttonCreate.addEventListener('click', function() {
+                crear();
+            });
+        </script>
     @endpush
 </x-app-layout>

@@ -6,6 +6,7 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
+                'resources/scss/app.scss',
                 'resources/js/app.js',
             ],
             refresh: true,
@@ -13,10 +14,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            // 'Boo' : 'Bootstrap',
-            // 'Theme' : 'Theme',
-            'Moo' : 'Modal',
-            '$' : 'JQuery',
+            'bootstrap': 'bootstrap'
         }
     }
 });

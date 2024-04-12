@@ -1,6 +1,7 @@
 // Lucas Bebber's Glitch Effect
 // Tutorial and CSS from CSS Tricks
 // https://css-tricks.com/glitch-effect-text-images-svg/
+@use "sass:math";
 
 .error {
   color: $gray-800;
@@ -12,7 +13,7 @@
 @keyframes noise-anim {
   $steps: 20;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
+    #{percentage($i*math.div(1,$steps))} {
       clip: rect(random(100)+px,9999px,random(100)+px,0);
     }
   }
@@ -33,7 +34,7 @@
 @keyframes noise-anim-2 {
   $steps: 20;
   @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
+    #{percentage($i*math.div(1,$steps))} {
       clip: rect(random(100)+px,9999px,random(100)+px,0);
     }
   }

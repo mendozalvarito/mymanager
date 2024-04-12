@@ -8,8 +8,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/100', function () {
-    return view('100');
+Route::get('/blank', function () {
+    return view('blank');
 });
 
 Route::get('/dashboard', function () {
@@ -27,3 +27,5 @@ Route::resource('products', ProductController::class)
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
+
+

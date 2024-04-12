@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Products\StoreRequest;
+use App\Http\Requests\Product\ProductStoreRequest;
+use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,10 +31,19 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(ProductStoreRequest $request): RedirectResponse
     {
-        Product::create($request->validated());
-        return redirect(route('products.index'))->with('success', 'Product created successfully.');
+        $product = $request->validated();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = '/uploads/images/products/';
+            $postImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->storeAs($destinationPath, $postImage, ['disk' => 'public']);
+            $product['image'] = "$postImage";
+        }
+
+        Product::create($product);
+        return redirect(route('products.index'))->with('success', 'Created successfully.');
     }
 
     /**
@@ -55,9 +65,19 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product):RedirectResponse
     {
+        $validated = $request->validated();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = '/uploads/images/products/';
+            $postImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->storeAs($destinationPath, $postImage, ['disk' => 'public']);
+            $product['image'] = "$postImage";
+        }
 
+        $product->update($validated);
+        return redirect(route('products.index'))->with('success', 'Update successfully.');
     }
 
     /**
@@ -67,6 +87,6 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+            ->with('success', 'Deleted successfully.');
     }
 }

@@ -1,7 +1,9 @@
 <!-- Footer -->
-<footer class="footer">
-    <p class="small text-muted m-0">Developed by <a href="mailto:mendozalvarito@gmail.com">Mendozalvarito</a> All rights reserved | © 2024</p>
-    <p class="small text-muted m-0">Designed by <a
-            href="https://www.pixelrocket.store/">PixelRocket</a></p>
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Developed by <a class="text-decoration-none" href="https://www.linkedin.com/in/mendozalvarito" target="_blank">Mendozalvarito</a> | {{ config('app.name', 'Laravel') }} Copyright &copy; 2024</span>
+        </div>
+    </div>
 </footer>
-<!-- / Footer-->
+<!-- End of Footer -->

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -18,26 +19,9 @@
     @stack('scripts')
 </head>
 
-<body class="page-top">
-    <div id="wrapper">
-        <x-partials.sidebar />
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <!-- Main Content -->
-            <div id="content">
-                <x-partials.topbar />
-                {{ $slot }}
-            </div>
-            <x-partials.footer />
-        </div>
-        <x-partials.scrolltop />
-        @isset($modal)
-            {{ $modal }}
-        @endisset
-        @empty($modal)
-            <x-partials.modal />
-        @endempty
-    </div>
+<body class="bg-gradient-primary">
+    {{ $slot }}
 </body>
 
 </html>
+
