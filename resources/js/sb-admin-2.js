@@ -1,77 +1,96 @@
-import * as bootstrap from 'bootstrap';
-(function() {
+import * as bootstrap from "bootstrap";
+(function () {
     "use strict"; // Start of use strict
 
-    var sidebar = document.querySelector('.sidebar');
-    var sidebarToggles = document.querySelectorAll('#sidebarToggle, #sidebarToggleTop');
+    var sidebar = document.querySelector(".sidebar");
+    var alert = document.querySelector(".alert");
+    var sidebarToggles = document.querySelectorAll(
+        "#sidebarToggle, #sidebarToggleTop"
+    );
+
+    if (alert) {
+        setTimeout(function () {
+            alert.classList.add("animate__animated", "animate__backOutDown");
+            setTimeout(function () {
+                const myAlert = bootstrap.Alert.getOrCreateInstance("#myAlert");
+                myAlert.close();
+            }, 500);
+        }, 4000);
+    }
 
     if (sidebar) {
-
-      var collapseEl = sidebar.querySelector('.collapse');
-      var collapseElementList = [].slice.call(document.querySelectorAll('.sidebar .collapse'))
-      var sidebarCollapseList = collapseElementList.map(function (collapseEl) {
-        return new bootstrap.Collapse(collapseEl, { toggle: false });
-      });
-
-      for (var toggle of sidebarToggles) {
-
-        // Toggle the side navigation
-        toggle.addEventListener('click', function(e) {
-          document.body.classList.toggle('sidebar-toggled');
-          sidebar.classList.toggle('toggled');
-
-          if (sidebar.classList.contains('toggled')) {
-            for (var bsCollapse of sidebarCollapseList) {
-              bsCollapse.hide();
-            }
-          };
+        var collapseEl = sidebar.querySelector(".collapse");
+        var collapseElementList = [].slice.call(
+            document.querySelectorAll(".sidebar .collapse")
+        );
+        var sidebarCollapseList = collapseElementList.map(function (
+            collapseEl
+        ) {
+            return new bootstrap.Collapse(collapseEl, { toggle: false });
         });
-      }
 
-      // Close any open menu accordions when window is resized below 768px
-      window.addEventListener('resize', function() {
-        var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        for (var toggle of sidebarToggles) {
+            // Toggle the side navigation
+            toggle.addEventListener("click", function (e) {
+                document.body.classList.toggle("sidebar-toggled");
+                sidebar.classList.toggle("toggled");
 
-        if (vw < 768) {
-          for (var bsCollapse of sidebarCollapseList) {
-            bsCollapse.hide();
-          }
-        };
-      });
+                if (sidebar.classList.contains("toggled")) {
+                    for (var bsCollapse of sidebarCollapseList) {
+                        bsCollapse.hide();
+                    }
+                }
+            });
+        }
+
+        // Close any open menu accordions when window is resized below 768px
+        window.addEventListener("resize", function () {
+            var vw = Math.max(
+                document.documentElement.clientWidth || 0,
+                window.innerWidth || 0
+            );
+
+            if (vw < 768) {
+                for (var bsCollapse of sidebarCollapseList) {
+                    bsCollapse.hide();
+                }
+            }
+        });
     }
 
     // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
 
-    var fixedNaigation = document.querySelector('body.fixed-nav .sidebar');
+    var fixedNaigation = document.querySelector("body.fixed-nav .sidebar");
 
     if (fixedNaigation) {
-      fixedNaigation.on('mousewheel DOMMouseScroll wheel', function(e) {
-        var vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        fixedNaigation.on("mousewheel DOMMouseScroll wheel", function (e) {
+            var vw = Math.max(
+                document.documentElement.clientWidth || 0,
+                window.innerWidth || 0
+            );
 
-        if (vw > 768) {
-          var e0 = e.originalEvent,
-            delta = e0.wheelDelta || -e0.detail;
-          this.scrollTop += (delta < 0 ? 1 : -1) * 30;
-          e.preventDefault();
-        }
-      });
+            if (vw > 768) {
+                var e0 = e.originalEvent,
+                    delta = e0.wheelDelta || -e0.detail;
+                this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+                e.preventDefault();
+            }
+        });
     }
 
-    var scrollToTop = document.querySelector('.scroll-to-top');
+    var scrollToTop = document.querySelector(".scroll-to-top");
 
     if (scrollToTop) {
+        // Scroll to top button appear
+        window.addEventListener("scroll", function () {
+            var scrollDistance = window.pageYOffset;
 
-      // Scroll to top button appear
-      window.addEventListener('scroll', function() {
-        var scrollDistance = window.pageYOffset;
-
-        //check if user is scrolling up
-        if (scrollDistance > 100) {
-          scrollToTop.style.display = 'block';
-        } else {
-          scrollToTop.style.display = 'none';
-        }
-      });
+            //check if user is scrolling up
+            if (scrollDistance > 100) {
+                scrollToTop.style.display = "block";
+            } else {
+                scrollToTop.style.display = "none";
+            }
+        });
     }
-
-  })(); // End of use strict
+})(); // End of use strict

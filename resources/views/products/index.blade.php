@@ -1,19 +1,21 @@
 <x-app-layout>
     <div class="container-fluid">
         @session('success')
-            <div class="alert alert-success" role="alert">
-                {{ __($value) }}
+            <div data-aos="zoom-in-up" data-aos-duration="1000" data-aos-delay="300">
+                <div class="alert alert-success" id="myAlert">
+                    {{ __($value) }}
+                </div>
             </div>
         @endsession
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-primary m-0 fw-bold">{{ __('Manage products') }}</p>
+                <p class="text-primary m-0 fw-bold">{{ trans('Manage :name', ['name' => __('Products')]) }}</p>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-end mb-3">
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-primary" id="create">
-                            <i class="fas fa-plus-circle"></i> {{ __('New') }}
+                            <i class="fas fa-plus-circle"></i> {{ __('Create') }}
                         </button>
                     </div>
                 </div>
@@ -23,7 +25,7 @@
                         <table class="table table-hover my-0 align-middle" id="dataTable">
                             <thead>
                                 <tr>
-                                    <th class="text-bg-primary">{{ __('Name') }}</th>
+                                    <th class="text-bg-primary">{{ __('Product') }}</th>
                                     <th class="text-bg-primary">{{ __('Description') }}</th>
                                     <th class="text-bg-primary text-center">{{ __('Options') }}</th>
                                 </tr>
@@ -116,8 +118,8 @@
                         image.src = "/storage/uploads/images/products/" + data.image;
                         form.action = routeUpdate.replace(":id", id);
                         form.appendChild(inputMethod);
-                        title.innerHTML = "{{__('Update')}}";
-                        button.innerHTML = "{{__('Update')}}";
+                        title.innerHTML = "{{ trans('Update :name', ['name' => __('Product')]) }}";
+                        button.innerHTML = "{{ __('Update') }}";
                         myModal.show();
                     }) //imprimir los datos en la consola
                     .catch((err) => console.log(err)); // Capturar errores
@@ -126,9 +128,9 @@
             function crear() {
                 form.reset();
                 form.action = "{{ route('products.store') }}";
-                title.innerHTML = "{{__('Create')}}";
-                button.innerHTML = "{{__('Create')}}";
-                if (document.getElementById('inputUpdate')!== null) {
+                title.innerHTML = "{{ trans('Create :name', ['name' => __('Product')]) }}";
+                button.innerHTML = "{{ __('Create') }}";
+                if (document.getElementById('inputUpdate') !== null) {
                     form.removeChild(inputMethod);
                 }
                 myModal.show();
@@ -146,6 +148,23 @@
             buttonCreate.addEventListener('click', function() {
                 crear();
             });
+
+            const inputImage = document.getElementById("image");
+
+            const previewImage = () => {
+                const file = inputImage.files;
+                if (file) {
+                    const fileReader = new FileReader();
+                    fileReader.onload = function (event) {
+                        image.src=event.target.result;
+                    };
+                    fileReader.readAsDataURL(file[0]);
+                }
+            };
+
+
+            inputImage.addEventListener('change', previewImage);
+
         </script>
     @endpush
 </x-app-layout>

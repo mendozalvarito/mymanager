@@ -2,3 +2,5 @@
 @import '@fortawesome/fontawesome-free/css/regular.css';
 @import '@fortawesome/fontawesome-free/css/solid.css';
 @import '@fortawesome/fontawesome-free/css/brands.css';
+@import "aos/dist/aos.css";
+@import "animate.css/animate.css";

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->longText('description')->nullable();
             $table->string('image')->nullable();
+            $table->decimal('price', places: 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
