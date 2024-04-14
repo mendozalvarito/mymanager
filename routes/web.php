@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('products', ProductController::class)
-    ->only(['index', 'store', 'edit', 'update', 'destroy'])
+    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

@@ -3,7 +3,7 @@ import * as bootstrap from "bootstrap";
     "use strict"; // Start of use strict
 
     var sidebar = document.querySelector(".sidebar");
-    var alert = document.querySelector(".alert");
+    var alert = document.getElementById("myAlert");
     var sidebarToggles = document.querySelectorAll(
         "#sidebarToggle, #sidebarToggleTop"
     );
@@ -93,4 +93,11 @@ import * as bootstrap from "bootstrap";
             }
         });
     }
+    //Tooltip
+    const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+    );
+    const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
 })(); // End of use strict

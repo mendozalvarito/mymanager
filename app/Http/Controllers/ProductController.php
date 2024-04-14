@@ -24,8 +24,9 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $request): View
     {
+        return view('products.form');
     }
 
     /**
@@ -59,7 +60,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return response()->json($product);
+        return view('products.form', compact('product'));
     }
 
     /**

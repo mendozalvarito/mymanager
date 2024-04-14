@@ -21,6 +21,16 @@
                                 @enderror
                             </div>
                             <div class="form-floating mb-3">
+                                <input type=number step=0.01 class="form-control @error('price') is-invalid @enderror"
+                                    id="price" name="price" placeholder="name@example.com"
+                                    value="{{ old('price') }}" autocomplete="product">
+                                <label for="price">{{ __('Price') }} $
+                                </label>
+                                @error('price')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-floating mb-3">
                                 <textarea id="description" name="description" class="form-control @error('description') is-invalid @enderror"
                                     placeholder="Leave a comment here" rows="3" autocomplete="description"></textarea>
                                 <label for="description">{{ __('Description') }}</label>
