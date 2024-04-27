@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Product\ProductStoreRequest;
-use App\Http\Requests\Product\ProductUpdateRequest;
+use App\Http\Requests\Product\ProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,7 +31,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductStoreRequest $request): RedirectResponse
+    public function store(ProductRequest $request): RedirectResponse
     {
         $product = $request->validated();
         if ($request->hasFile('image')) {
@@ -40,7 +39,7 @@ class ProductController extends Controller
             $destinationPath = '/uploads/images/products/';
             $postImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->storeAs($destinationPath, $postImage, ['disk' => 'public']);
-            $product['image'] = "$postImage";
+            $product['image'] = $postImage;
         }
 
         Product::create($product);
@@ -66,15 +65,16 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductUpdateRequest $request, Product $product):RedirectResponse
+    public function update(ProductRequest $request, Product $product):RedirectResponse
     {
         $validated = $request->validated();
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $destinationPath = '/uploads/images/products/';
             $postImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            Log::alert($postImage);
             $image->storeAs($destinationPath, $postImage, ['disk' => 'public']);
-            $product['image'] = "$postImage";
+            $validated['image'] = $postImage;
         }
 
         $product->update($validated);

@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Customers;
 
+use App\Http\Requests\Common\PersonRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductStoreRequest extends FormRequest
+class CustomerRequest extends FormRequest
 {
+
+    use PersonRequest;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,11 +24,10 @@ class ProductStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:50',
-            'description' => 'nullable|string|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|nullable',
-            'price' => 'decimal:2|nullable',
-        ];
+        return array_merge($this->rulesPerson(),[
+            'address' => 'required|string|max:150',
+            'mobile' => 'nullable|string|max:50',
+            'email' => 'nullable|email|string|max:50',
+        ]);
     }
 }

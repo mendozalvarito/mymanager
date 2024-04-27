@@ -15,7 +15,7 @@
                         @method('PUT')
                         @csrf
                         <div class="row">
-                            <div class="col-10">
+                            <div class="col-md-9">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         id="name" name="name" placeholder="name@example.com"
@@ -44,17 +44,19 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3 justify-content-center">
+                                    <img id="imgPreview" class="rounded me-2 img-fluid"
+                                        src={{ '/storage/uploads/images/products/' . $product->image }}>
+                                </div>
                                 <div class="input-group mb-3">
-                                    <label for="image" class="input-group-text">{{ __('Image') }}</label>
                                     <input class="form-control @error('image') is-invalid @enderror" type="file"
                                         id="image" name="image">
                                     @error('image')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="col-2">
-                                <img id="imgPreview" class="rounded me-2 img-fluid" src={{"/storage/uploads/images/products/".$product->image}}>
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
@@ -68,7 +70,7 @@
                         method="POST">
                         @csrf
                         <div class="row">
-                            <div class="col-10">
+                            <div class="col-md-9">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         id="name" name="name" placeholder="name@example.com"
@@ -81,8 +83,8 @@
                                 <div class="form-floating mb-3">
                                     <input type=number step=0.01
                                         class="form-control @error('price') is-invalid @enderror" id="price"
-                                        name="price" placeholder="name@example.com"
-                                        value="{{ old('price') }}" autocomplete="product">
+                                        name="price" placeholder="name@example.com" value="{{ old('price') }}"
+                                        autocomplete="product">
                                     <label for="price">{{ __('Price') }} $
                                     </label>
                                     @error('price')
@@ -97,8 +99,13 @@
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3 justify-content-center">
+                                    <img id="imgPreview" class="rounded me-2 img-fluid"
+                                        src="/images/default_product.png">
+                                </div>
                                 <div class="input-group mb-3">
-                                    <label for="image" class="input-group-text">{{ __('Image') }}</label>
                                     <input class="form-control @error('image') is-invalid @enderror" type="file"
                                         id="image" name="image" value="{{ old('image') }}">
                                     @error('image')
@@ -106,11 +113,8 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-2">
-                                <img id="imgPreview" class="rounded me-2 img-fluid">
-                            </div>
                         </div>
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex flex-md-row justify-content-end">
                             <a href="{{ route('products.index') }}"
                                 class="btn btn-danger m-1">{{ __('Cancel') }}</a>
                             <button type="submit"
